@@ -9,6 +9,8 @@ public class PlayerState
 
     private string aminBoolName;
 
+    protected float xInput;
+
     public PlayerState(Player _player, PlayerStateMachine _stateMachine, string _aminBoolName)
     {
         this.player = _player;
@@ -18,17 +20,17 @@ public class PlayerState
 
     public virtual void Enter()
     {
-
+        player.anim.SetBool(aminBoolName, true);
     }
 
     public virtual void Update()
     {
-
+        xInput = Input.GetAxisRaw("Horizontal");
     }
 
     public virtual void Exit()
     {
-
+        player.anim.SetBool(aminBoolName, false);
     }
 
 }
