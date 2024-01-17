@@ -24,6 +24,16 @@ public class Player : MonoBehaviour
     public float moveSpeed = 5f;
     public float jumpForce;
 
+    [Header("Collosion info")]
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundCheckDistanse;
+    [SerializeField] private Transform wallCheck;
+    [SerializeField] private float wallCheckDistanse;
+    [SerializeField] private LayerMask whatIsGround;
+
+    public int faceDir { get; private set; } = 1;
+    private bool faceRight = true;
+
     private void Awake()
     {
         stateMachine = new PlayerStateMachine();
@@ -44,10 +54,39 @@ public class Player : MonoBehaviour
     private void Update()
     {
         stateMachine.curentState.Update();
+        
     }
 
     public void SetVelocity(float _xVelocity, float _yVelocity)
     {
+        FlipControler(_xVelocity);
         rb.velocity = new Vector2(_xVelocity, _yVelocity);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawLine(groundCheck.position, new Vector3(groundCheck.position.x, groundCheck.position.y - groundCheckDistanse));
+        Gizmos.DrawLine(wallCheck.position, new Vector3(wallCheck.position.x + wallCheckDistanse, wallCheck.position.y));
+    }
+
+    public bool IsGroundDetected() => Physics2D.Raycast(groundCheck.position, Vector2.down, groundCheckDistanse, whatIsGround);
+
+    public void Flip()
+    {
+        faceDir = faceDir * -1;
+        faceRight = !faceRight;
+        transform.Rotate(0, 180, 0);
+    }
+
+    public void FlipControler(float _x)
+    {
+        if(_x > 0 && !faceRight)
+        {
+            Flip();
+        }
+        else if (_x < 0 && faceRight)
+        {
+            Flip();
+        }
     }
 }
