@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIdleState : PlayerGroundState
+public class PlayerGroundState : PlayerState
 {
-    public PlayerIdleState(Player _player, PlayerStateMachine _stateMachine, string _aminBoolName) : base(_player, _stateMachine, _aminBoolName)
+    public PlayerGroundState(Player _player, PlayerStateMachine _stateMachine, string _aminBoolName) : base(_player, _stateMachine, _aminBoolName)
     {
     }
 
@@ -21,10 +21,9 @@ public class PlayerIdleState : PlayerGroundState
     public override void Update()
     {
         base.Update();
-
-        if (xInput != 0)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            stateMachine.ChangeState(player.moveState);
+            stateMachine.ChangeState(player.jumpState);
         }
     }
 }

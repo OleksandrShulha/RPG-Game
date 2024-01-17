@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerIdleState : PlayerGroundState
+public class PlayerAirState : PlayerState
 {
-    public PlayerIdleState(Player _player, PlayerStateMachine _stateMachine, string _aminBoolName) : base(_player, _stateMachine, _aminBoolName)
+    public PlayerAirState(Player _player, PlayerStateMachine _stateMachine, string _aminBoolName) : base(_player, _stateMachine, _aminBoolName)
     {
     }
 
@@ -22,9 +22,9 @@ public class PlayerIdleState : PlayerGroundState
     {
         base.Update();
 
-        if (xInput != 0)
+        if(rb.velocity.y == 0)
         {
-            stateMachine.ChangeState(player.moveState);
+            stateMachine.ChangeState(player.idleState);
         }
     }
 }
